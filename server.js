@@ -41,6 +41,20 @@ app.get("/hello", (req, res) => {
   }, 1500 + 100 * name.length);
 });
 
+app.get("/cal/:month/:year", (req, res) => {
+  successHeader(res, "text/html");
+  const month = req.params.month;
+  const year = req.params.year;
+  printMonth(res, month, year);
+});
+
+app.get("/cal", (req, res) => {
+  const date = new Date();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  printMonth(res, month, year);
+});
+
 app.get("/random/:min/:max", (req, res) => {
   const min = parseInt(req.params.min);
   const max = parseInt(req.params.max);
