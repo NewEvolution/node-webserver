@@ -28,7 +28,7 @@ app.get("/random", (req, res) => {
   res.end(Math.random().toString());
 });
 
-app.get("*", (req, res) => {
+app.all("*", (req, res) => {
   res.writeHead(403);
   res.end("Access denied!");
 });
