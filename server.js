@@ -28,7 +28,7 @@ app.get("/random", (req, res) => {
   res.status(200).send(Math.random().toString());
 });
 
-app.all("*", (req, res) => {
+app.get("/secret", (req, res) => {
   res.status(403).send("Access denied!");
 });
 
