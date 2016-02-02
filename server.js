@@ -13,11 +13,15 @@ function successHeader(res, type) {
 
 function printMonth(res, month, year) {
   const calArr = utility.buildMonth(month, year);
-  res.write("<pre>");
-  calArr.forEach((week) => {
-    res.write(`${week}\n`);
+  res.write("<pre><h2>");
+  calArr.forEach((week, i) => {
+    if(i < 2) {
+      res.write(`<strong>${week}</strong>\n`);
+    } else {
+      res.write(`${week}\n`);
+    }
   });
-  res.end("</pre>");
+  res.end("</h2></pre>");
 }
 
 app.get("/favicon.ico", (req, res) => {
