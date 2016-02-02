@@ -13,19 +13,26 @@ app.get("/favicon.ico", (req, res) => {
 
 app.get("/hello", (req, res) => {
   res.writeHead(200, {"Content-Type": "text/html"});
-  const msg = "<h1>Hello world</h1>";
+  const name = req.query.name;
+  const msg = `<h1>Hello ${name}</h1>`;
   msg.split("").forEach((letter, i) => {
     setTimeout(() => {
       res.write(letter);
     }, 100 * i);
   });
   setTimeout(() => {
-    res.end("<h3>Goodbye world...</h3>");
-  }, 2500);
+    res.end(`<h3>Goodbye ${name}...</h3>`);
+  }, 1500 + 100 * name.length);
+});
+
+app.get("/random/:min/:max", (req, res) => {
+  const min = parseInt(req.params.min);
+  const max = parseInt(req.params.max);
+  res.status(200).send((Math.floor(Math.random() * (max - min + 1)) + min).toString());
 });
 
 app.get("/random", (req, res) => {
-  res.status(200).send(Math.random().toString());
+  res.status(200).send((Math.floor(Math.random() * (100 - 0 + 1))).toString());
 });
 
 app.get("/secret", (req, res) => {
