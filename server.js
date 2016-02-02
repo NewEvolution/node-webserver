@@ -5,10 +5,10 @@ const app = require("express")();
 const PORT = process.env.PORT || 3000;
 
 app.get("/favicon.ico", (req, res) => {
-  res.writeHead(200, {'Content-Type': 'image/x-icon'} );
-  const img = fs.readFileSync('./favicon.ico');
-  res.end(img, 'binary');
-  console.log('favicon requested');
+  res.writeHead(200, {"Content-Type": "image/x-icon"} );
+  const img = fs.readFileSync("./favicon.ico");
+  res.end(img, "binary");
+  console.log("favicon requested");
 });
 
 app.get("/hello", (req, res) => {
