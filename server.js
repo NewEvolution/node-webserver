@@ -3,16 +3,32 @@
 const fs = require("fs");
 const app = require("express")();
 const PORT = process.env.PORT || 3000;
+const utility = require("node-cal/lib/utility");
+
+function successHeader(res, type) {
+  const headObj = {};
+  headObj["Content-Type"] = type;
+  res.writeHead(200, headObj);
+}
+
+function printMonth(res, month, year) {
+  const calArr = utility.buildMonth(month, year);
+  res.write("<pre>");
+  calArr.forEach((week) => {
+    res.write(`${week}\n`);
+  });
+  res.end("</pre>");
+}
 
 app.get("/favicon.ico", (req, res) => {
-  res.writeHead(200, {"Content-Type": "image/x-icon"} );
+  successHeader(res, "image/x-icon");
   const img = fs.readFileSync("./favicon.ico");
   res.end(img, "binary");
   console.log("favicon requested");
 });
 
 app.get("/hello", (req, res) => {
-  res.writeHead(200, {"Content-Type": "text/html"});
+  successHeader(res, "text/html");
   const name = req.query.name;
   const msg = `<h1>Hello ${name}</h1>`;
   msg.split("").forEach((letter, i) => {
