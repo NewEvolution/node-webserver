@@ -1,0 +1,24 @@
+{
+  "name": "node-webserver",
+  "version": "1.0.0",
+  "description": "Basic webserver implementation to explore Node.js server options/methods.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewEvolution/node-webserver.git"
+  },
+  "keywords": [],
+  "author": "Ryan Tanay <rtanay@gmail.com> (http://portfolio.ryantanay.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NewEvolution/node-webserver/issues"
+  },
+  "homepage": "https://github.com/NewEvolution/node-webserver#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
