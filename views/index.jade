@@ -1,6 +1,7 @@
 doctype html
 html
   head
-    title Node Server
+    title=title
   body
-    h1 Welcome to a Node server!
+    h1 Welcome to #{title}
+    p Today's date is #{date.toLocaleDateString("en-us")}

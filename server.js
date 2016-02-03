@@ -82,7 +82,10 @@ app.get("/secret", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", {
+    title: "A Node Server",
+    date: new Date()
+  });
 });
 
 app.listen(PORT, () => {
