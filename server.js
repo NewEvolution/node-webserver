@@ -53,6 +53,13 @@ app.get("/cal/:month/:year", (req, res) => {
   printMonth(res, month, year);
 });
 
+app.get("/cal/:year", (req, res) => {
+  successHeader(res, "text/html");
+  const year = req.params.year;
+  const yearArray = utility.buildYear(year);
+  res.end(yearArray.toString());
+});
+
 app.get("/cal", (req, res) => {
   const date = new Date();
   const month = date.getMonth();
