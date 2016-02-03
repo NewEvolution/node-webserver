@@ -4,6 +4,7 @@ const fs = require("fs");
 const app = require("express")();
 const PORT = process.env.PORT || 3000;
 const utility = require("node-cal/lib/utility");
+app.set("view engine", "jade");
 
 function successHeader(res, type) {
   const headObj = {};
@@ -71,6 +72,10 @@ app.get("/random", (req, res) => {
 
 app.get("/secret", (req, res) => {
   res.status(403).send("Access denied!");
+});
+
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
 app.listen(PORT, () => {
