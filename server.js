@@ -22,6 +22,7 @@ app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: true,
+  sourceMap: true
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -142,6 +143,16 @@ app.get("/random/:min/:max", (req, res) => {
 
 app.get("/random", (req, res) => {
   res.status(200).send((Math.floor(Math.random() * (100 - 0 + 1))).toString());
+});
+
+app.get("/reddit", (req, res) => {
+ const url = "http://reddit.com";
+  request.get(url, (err, response, body) => {
+    if(err) throw err;
+    const $ = cheerio.load(body);
+    $("a.title").attr("href", "https://www.youtube.com/watch?v=9NcPvmk4vfo");
+    res.send(d.html())
+  });
 });
 
 app.get("/secret", (req, res) => {
