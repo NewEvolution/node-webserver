@@ -26,10 +26,17 @@ app.use(require('node-sass-middleware')({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-function successHeader(res, type) {
-  const headObj = {};
-  headObj["Content-Type"] = type;
-  res.writeHead(200, headObj);
+function imgurSend(err, res, newPath) {
+  if(err) {
+    res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
+    throw err;
+  }
+  imgur.uploadFile(newPath)
+  .then(function (json) {
+    res.send(`<img src="${json.data.link}" alt="Your image">`);
+  }).catch(function (err) {
+    res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
+  });
 }
 
 function printMonth(res, month, year) {
@@ -45,31 +52,54 @@ function printMonth(res, month, year) {
   res.end("</h2></pre>");
 }
 
-function imgurSend(err, res, newPath) {
-  if(err) {
-    res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
-    throw err;
-  }
-  imgur.uploadFile(newPath)
-  .then(function (json) {
-    res.send(`<img src="${json.data.link}" alt="Your image">`);
-  }).catch(function (err) {
-    res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
-  });
+function successHeader(res, type) {
+  const headObj = {};
+  headObj["Content-Type"] = type;
+  res.writeHead(200, headObj);
 }
 
-app.get("/hello", (req, res) => {
-  successHeader(res, "text/html");
-  const name = req.query.name;
-  const msg = `<h1>Hello ${name}</h1>`;
-  msg.split("").forEach((letter, i) => {
-    setTimeout(() => {
-      res.write(letter);
-    }, 100 * i);
+app.get("/api", (req, res) => {
+  res.send({this: "is an API"});
+});
+
+app.post("/api", (req, res) => {
+  const obj = _.mapValues(req.body, val => val.toUpperCase());
+  res.send(obj);
+});
+
+app.get("/api/news", (req, res) => {
+  const url = "http://cnn.com";
+  request.get(url, (err, response, body) => {
+    if(err) throw err;
+    const $ = cheerio.load(body);
+    const news = [];
+    const $bannerText = $(".banner-text")
+    news.push({
+      title: $bannerText.text(),
+      url: `http://cnn.com${$bannerText.closest("a").attr("href")}`
+    });
+    const $headline = $(".cd__headline");
+    _.range(1, 12).forEach(i => {
+      const $headlineEl = $headline.eq(i)
+      let theUrl = $headlineEl.find("a").attr("href");
+      if(theUrl.indexOf("http") != 0) {
+        theUrl = `http://cnn.com${theUrl}`;
+      }
+      news.push({
+        title: $headlineEl.text(),
+        url: theUrl
+      });
+    });
+    res.send(news)
   });
-  setTimeout(() => {
-    res.end(`<h3>Goodbye ${name}...</h3>`);
-  }, 1500 + 100 * name.length);
+});
+
+app.get("/api/random", (req, res) => {
+  const url = "https://randomapi.com/api/?key=2IS9-4BF5-3W5L-7Z67&id=irta6tm";
+  request.get(url, (err, response, body) => {
+    if(err) throw err;
+    res.send(JSON.parse(body));
+  });
 });
 
 app.get("/cal/:month/:year", (req, res) => {
@@ -93,6 +123,29 @@ app.get("/cal", (req, res) => {
   printMonth(res, month, year);
 });
 
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
+
+app.post("/contact", (req, res) => {
+  const name = req.body.name;
+  res.send(`<h1>Thanks for contacting us ${name}!</h1>`);
+});
+
+app.get("/hello", (req, res) => {
+  successHeader(res, "text/html");
+  const name = req.query.name;
+  const msg = `<h1>Hello ${name}</h1>`;
+  msg.split("").forEach((letter, i) => {
+    setTimeout(() => {
+      res.write(letter);
+    }, 100 * i);
+  });
+  setTimeout(() => {
+    res.end(`<h3>Goodbye ${name}...</h3>`);
+  }, 1500 + 100 * name.length);
+});
+
 app.get("/random/:min/:max", (req, res) => {
   const min = parseInt(req.params.min);
   const max = parseInt(req.params.max);
@@ -107,10 +160,6 @@ app.get("/secret", (req, res) => {
   res.status(403).send("Access denied!");
 });
 
-app.get("/contact", (req, res) => {
-  res.render("contact");
-});
-
 app.get("/sendphoto", (req, res) => {
   res.render("sendphoto");
 });
@@ -120,56 +169,7 @@ app.post("/sendphoto", upload.single("image"), (req, res) => {
   const tempPath = req.file.path;
   const newPath = tempPath + extension;
   fs.rename(tempPath, newPath, imgurSend(err, res, newPath));
-
   res.write("<h1>Thanks for your image!</h1>");
-});
-
-app.post("/contact", (req, res) => {
-  const name = req.body.name;
-  res.send(`<h1>Thanks for contacting us ${name}!</h1>`);
-});
-
-app.post("/api", (req, res) => {
-  const obj = _.mapValues(req.body, val => val.toUpperCase());
-  res.send(obj);
-});
-
-app.get("/api/random", (req, res) => {
-  const url = "https://randomapi.com/api/?key=2IS9-4BF5-3W5L-7Z67&id=irta6tm";
-  request.get(url, (err, response, body) => {
-    if(err) throw err;
-    res.send(JSON.parse(body));
-  });
-});
-
-app.get("/api/news", (req, res) => {
-  const url = "http://cnn.com";
-  request.get(url, (err, response, body) => {
-    if(err) throw err;
-    const $ = cheerio.load(body);
-    const news = [];
-
-    const $bannerText = $(".banner-text")
-    news.push({
-      title: $bannerText.text(),
-      url: `http://cnn.com${$bannerText.closest("a").attr("href")}`
-    });
-
-    const $headline = $(".cd__headline");
-    _.range(1, 12).forEach(i => {
-      const $headlineEl = $headline.eq(i)
-      let theUrl = $headlineEl.find("a").attr("href");
-      if(theUrl.indexOf("http") != 0) {
-        theUrl = `http://cnn.com${theUrl}`;
-      }
-      news.push({
-        title: $headlineEl.text(),
-        url: theUrl
-      });
-    });
-
-    res.send(news)
-  });
 });
 
 app.get("/", (req, res) => {
