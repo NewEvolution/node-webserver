@@ -1,7 +1,4 @@
-doctype html
-html
-  head
-    title=title
-  body
-    h1 Welcome to #{title}
-    p Today's date is #{date.toLocaleDateString("en-us")}
+extends ./template.jade
+block content
+  h1 Welcome to #{title}
+  p Today's date is #{date.toLocaleDateString("en-us")}

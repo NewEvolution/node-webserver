@@ -1,14 +1,10 @@
-doctype html
-html
-  head
-    title=title
-  body
-    .container
-      h1 Send us photos of you partying with cal.js
+extends ./template.jade
+block content
+  .container
+    h1 Send us photos of you partying with cal.js
 
-      form(enctype="multipart/form-data", method="POST")
-        .form-group
-          input(type="file", name="image", accept="image/*")
-        .form-group
-          input(type="submit", value="Share your image")
-
+    form(enctype="multipart/form-data", method="POST")
+      .form-group
+        input(type="file", name="image", accept="image/*")
+      .form-group
+        input(type="submit", value="Share your image")
