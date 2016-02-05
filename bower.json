@@ -1,0 +1,23 @@
+{
+  "name": "node-webserver",
+  "description": "Basic webserver implementation to explore Node.js server options/methods.",
+  "main": "server.js",
+  "authors": [
+    "Ryan Tanay <rtanay@gmail.com> (http://portfolio.ryantanay.com/)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/NewEvolution/node-webserver",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "font-awesome": "^4.5.0"
+  }
+}

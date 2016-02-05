@@ -1,10 +1,26 @@
 "use strict";
 
 const fs = require("fs");
-const app = require("express")();
-const PORT = process.env.PORT || 3000;
+const path = require("path");
+const express = require("express");
+const favicon = require('serve-favicon');
+const bodyParser = require('body-parser');
 const utility = require("node-cal/lib/utility");
+const upload = require("multer")({dest: "tmp/uploads"});
+const PORT = process.env.PORT || 3000;
+const app = express();
+
 app.set("view engine", "jade");
+
+app.locals.title = "A Calendar in Node.js";
+
+app.use(require('node-sass-middleware')({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  indentedSyntax: true,
+}));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 function successHeader(res, type) {
   const headObj = {};
@@ -24,13 +40,6 @@ function printMonth(res, month, year) {
   });
   res.end("</h2></pre>");
 }
-
-app.get("/favicon.ico", (req, res) => {
-  successHeader(res, "image/x-icon");
-  const img = fs.readFileSync("./favicon.ico");
-  res.end(img, "binary");
-  console.log("favicon requested");
-});
 
 app.get("/hello", (req, res) => {
   successHeader(res, "text/html");
@@ -81,9 +90,29 @@ app.get("/secret", (req, res) => {
   res.status(403).send("Access denied!");
 });
 
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
+
+app.get("/sendphoto", (req, res) => {
+  res.render("sendphoto");
+});
+
+app.post("/sendphoto", upload.single("image"), (req, res) => {
+  const extension = path.extname(req.file.originalname);
+  const tempPath = req.file.path;
+  const newPath = tempPath + extension;
+  fs.rename(tempPath, newPath);
+  res.send("<h1>Thanks for your image!</h1>");
+});
+
+app.post("/contact", (req, res) => {
+  const name = req.body.name;
+  res.send(`<h1>Thanks for contacting us ${name}!</h1>`);
+});
+
 app.get("/", (req, res) => {
   res.render("index", {
-    title: "A Node Server",
     date: new Date()
   });
 });
