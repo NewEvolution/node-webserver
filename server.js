@@ -129,6 +129,49 @@ app.post("/contact", (req, res) => {
   res.send(`<h1>Thanks for contacting us ${name}!</h1>`);
 });
 
+app.post("/api", (req, res) => {
+  const obj = _.mapValues(req.body, val => val.toUpperCase());
+  res.send(obj);
+});
+
+app.get("/api/random", (req, res) => {
+  const url = "https://randomapi.com/api/?key=2IS9-4BF5-3W5L-7Z67&id=irta6tm";
+  request.get(url, (err, response, body) => {
+    if(err) throw err;
+    res.send(JSON.parse(body));
+  });
+});
+
+app.get("/api/news", (req, res) => {
+  const url = "http://cnn.com";
+  request.get(url, (err, response, body) => {
+    if(err) throw err;
+    const $ = cheerio.load(body);
+    const news = [];
+
+    const $bannerText = $(".banner-text")
+    news.push({
+      title: $bannerText.text(),
+      url: `http://cnn.com${$bannerText.closest("a").attr("href")}`
+    });
+
+    const $headline = $(".cd__headline");
+    _.range(1, 12).forEach(i => {
+      const $headlineEl = $headline.eq(i)
+      let theUrl = $headlineEl.find("a").attr("href");
+      if(theUrl.indexOf("http") != 0) {
+        theUrl = `http://cnn.com${theUrl}`;
+      }
+      news.push({
+        title: $headlineEl.text(),
+        url: theUrl
+      });
+    });
+
+    res.send(news)
+  });
+});
+
 app.get("/", (req, res) => {
   res.render("index", {
     date: new Date()
