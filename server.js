@@ -1,8 +1,12 @@
 "use strict";
 
 const fs = require("fs");
+const _ = require("lodash");
 const path = require("path");
+const imgur = require("imgur");
+const cheerio = require("cheerio");
 const express = require("express");
+const request = require("request");
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const utility = require("node-cal/lib/utility");
@@ -39,6 +43,19 @@ function printMonth(res, month, year) {
     }
   });
   res.end("</h2></pre>");
+}
+
+function imgurSend(err, res, newPath) {
+  if(err) {
+    res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
+    throw err;
+  }
+  imgur.uploadFile(newPath)
+  .then(function (json) {
+    res.send(`<img src="${json.data.link}" alt="Your image">`);
+  }).catch(function (err) {
+    res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
+  });
 }
 
 app.get("/hello", (req, res) => {
@@ -102,8 +119,9 @@ app.post("/sendphoto", upload.single("image"), (req, res) => {
   const extension = path.extname(req.file.originalname);
   const tempPath = req.file.path;
   const newPath = tempPath + extension;
-  fs.rename(tempPath, newPath);
-  res.send("<h1>Thanks for your image!</h1>");
+  fs.rename(tempPath, newPath, imgurSend(err, res, newPath));
+
+  res.write("<h1>Thanks for your image!</h1>");
 });
 
 app.post("/contact", (req, res) => {
