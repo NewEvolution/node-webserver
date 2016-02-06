@@ -17,6 +17,7 @@ const app = express();
 app.set("view engine", "jade");
 
 app.locals.title = "A Calendar in Node.js";
+app.locals.date = new Date();
 
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
