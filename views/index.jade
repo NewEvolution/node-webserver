@@ -1,4 +1,7 @@
 extends ./template.jade
 block content
-  h1 Welcome to #{title}
-  p Today's date is #{date.toLocaleDateString("en-us")}
+  div.row
+    div.col-xs-12.col-md-10
+      h1 Welcome to #{title}
+    div.col-xs-12.col-md-2
+      a(href="cal") Today's Calendar

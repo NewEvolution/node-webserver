@@ -1,11 +1,25 @@
 body {
-  background-color: #667788;
   font-family: Helvetica, Arial, Sans-serif;
-  color: #223344; }
+  background-color: #667788;
+  color: #223344;
+  width: 100%; }
 
 .footer {
+  width: 100%;
   bottom: 1em;
   text-align: center;
   position: absolute; }
+
+a:hover {
+  text-decoration: none;
+  color: #bbccdd; }
+
+a:active {
+  text-decoration: none;
+  color: #aabbcc; }
+
+a:visited {
+  text-decoration: line-through;
+  color: #223377; }
 
 /*# sourceMappingURL=style.css.map */

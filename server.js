@@ -192,9 +192,7 @@ app.post("/sendphoto", upload.single("image"), (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.render("index", {
-    date: new Date()
-  });
+  res.render("index");
 });
 
 app.listen(PORT, () => {
