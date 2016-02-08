@@ -1,4 +1,5 @@
 "use strict";
+/* eslint no-magic-numbers: 0 */
 
 const fs = require("fs");
 const _ = require("lodash");
@@ -7,12 +8,12 @@ const imgur = require("imgur");
 const cheerio = require("cheerio");
 const express = require("express");
 const request = require("request");
-const favicon = require('serve-favicon');
-const bodyParser = require('body-parser');
+const favicon = require('serve-favicon'); // eslint-disable-line no-unused-vars
 const utility = require("node-cal/lib/utility");
 const upload = require("multer")({dest: "tmp/uploads"});
 const PORT = process.env.PORT || 3000;
 const app = express();
+const success = 200;
 
 app.set("view engine", "jade");
 
@@ -29,7 +30,7 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-function printMonth(res, month, year) {
+function printMonth (res, month, year) {
   const calArr = utility.buildMonth(month, year);
   res.write("<pre><h2>");
   calArr.forEach((week, i) => {
@@ -42,10 +43,10 @@ function printMonth(res, month, year) {
   res.end("</h2></pre>");
 }
 
-function successHeader(res, type) {
+function successHeader (res, type) {
   const headObj = {};
   headObj["Content-Type"] = type;
-  res.writeHead(200, headObj);
+  res.writeHead(success, headObj);
 }
 
 app.get("/api", (req, res) => {
@@ -72,7 +73,7 @@ app.get("/api/news", (req, res) => {
     _.range(1, 12).forEach(i => {
       const $headlineEl = $headline.eq(i)
       let theUrl = $headlineEl.find("a").attr("href");
-      if(theUrl.indexOf("http") != 0) {
+      if(theUrl.indexOf("http") !== 0) {
         theUrl = `http://cnn.com${theUrl}`;
       }
       news.push({
@@ -139,20 +140,20 @@ app.get("/hello", (req, res) => {
 app.get("/random/:min/:max", (req, res) => {
   const min = parseInt(req.params.min);
   const max = parseInt(req.params.max);
-  res.status(200).send((Math.floor(Math.random() * (max - min + 1)) + min).toString());
+  res.status(success).send((Math.floor(Math.random() * (max - min + 1)) + min).toString());
 });
 
 app.get("/random", (req, res) => {
-  res.status(200).send((Math.floor(Math.random() * (100 - 0 + 1))).toString());
+  res.status(success).send((Math.floor(Math.random() * (100 - 0 + 1))).toString());
 });
 
 app.get("/reddit", (req, res) => {
- const url = "http://reddit.com";
+  const url = "http://reddit.com";
   request.get(url, (err, response, body) => {
     if(err) throw err;
     const $ = cheerio.load(body);
     $("a.title").attr("href", "https://www.youtube.com/watch?v=9NcPvmk4vfo");
-    res.send(d.html())
+    res.send($.html())
   });
 });
 
@@ -173,9 +174,8 @@ app.post("/sendphoto", upload.single("image"), (req, res) => {
       res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
       throw err;
     }
-    console.log("renamed to", newPath);
-    imgur.uploadFile(newPath)
-    .then(function (json) {
+    imgur.uploadFile(newPath).
+    then(json => {
       fs.unlink(newPath);
       const rawImageUrl = json.data.link;
       const pageUrl = rawImageUrl.slice(0, -4);
@@ -183,7 +183,7 @@ app.post("/sendphoto", upload.single("image"), (req, res) => {
               <p><a href="${pageUrl}l${extension}">Large Thumbnail</a></p>
               <p><a href="${pageUrl}m${extension}">Medium Thumbnail</a></p>
               <p><a ef="${pageUrl}s${extension}">Small Thumbnail</a></p>`);
-    }).catch(function (err) {
+    }).catch(err => {
       fs.unlink(newPath);
       res.end(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
     });
@@ -196,5 +196,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Node.js server started. lisetening on port ${PORT}`);
+  console.log(`Node.js server started. listening on port ${PORT}`); // eslint-disable-line no-console
 });
