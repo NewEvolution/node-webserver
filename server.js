@@ -1,5 +1,5 @@
 "use strict";
-/* eslint no-magic-numbers: 0 */
+/* eslint no-magic-numbers: 0, no-console: 0 */
 
 const fs = require("fs");
 const _ = require("lodash");
@@ -10,7 +10,9 @@ const express = require("express");
 const request = require("request");
 const favicon = require('serve-favicon'); // eslint-disable-line no-unused-vars
 const utility = require("node-cal/lib/utility");
+const MongoClient = require("mongodb").MongoClient;
 const upload = require("multer")({dest: "tmp/uploads"});
+const MONGODB_URL = 'mongodb://localhost:27017/node-webserver';
 const PORT = process.env.PORT || 3000;
 const app = express();
 const success = 200;
@@ -195,6 +197,17 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.listen(PORT, () => {
-  console.log(`Node.js server started. listening on port ${PORT}`); // eslint-disable-line no-console
+MongoClient.connect(MONGODB_URL, (err, db) => {
+  if(err) throw err;
+
+  db.collection('docs').insertMany([
+      {a: 'b'}, {c: 'd'}, {e: 'f'}
+  ], (err, res) => {
+    if (err) throw err;
+    console.log(res);
+  });
+
+  app.listen(PORT, () => {
+    console.log(`Node.js server started. listening on port ${PORT}`);
+  });
 });
