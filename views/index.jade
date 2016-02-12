@@ -3,5 +3,7 @@ block content
   div.row
     div.col-xs-12.col-md-10
       h1 Welcome to #{title}
-    div.col-xs-12.col-md-2
-      a(href="cal") Today's Calendar
+      p The date is now #{date.toLocaleDateString()}
+      p Breaking news:&#32;
+        a(href=topStory.url)= topStory.title
+
