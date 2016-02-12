@@ -9,13 +9,13 @@ function randomInt (max, min) {
   return (Math.floor(Math.random() * (max - min + 1)) + min).toString()
 }
 
-router.get('/random/:min/:max', (req, res) => {
+// GET /random
+router.get('/:min/:max', (req, res) => {
   const min = parseInt(req.params.min);
   const max = parseInt(req.params.max);
   res.status(success).send(randomInt(max, min));
-});
-
-router.get('/random', (req, res) => {
+})
+.get('/', (req, res) => {
   res.status(success).send(randomInt(100, 0));
 });
 

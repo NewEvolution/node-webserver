@@ -9,11 +9,12 @@ const path = require('path');
 const imgur = require('imgur');
 const upload = require('multer')({dest: 'tmp/uploads'});
 
-router.get('/sendphoto', (req, res) => {
+// GET/POST /sendphoto
+router.get('/', (req, res) => {
   res.render('sendphoto');
-});
+})
 
-router.post('/sendphoto', upload.single('image'), (req, res) => {
+.post('/', upload.single('image'), (req, res) => {
   const extension = path.extname(req.file.originalname);
   const tempPath = req.file.path;
   const newPath = tempPath + extension;
@@ -22,8 +23,8 @@ router.post('/sendphoto', upload.single('image'), (req, res) => {
       res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
       throw err;
     }
-    imgur.uploadFile(newPath).
-    then(json => {
+    imgur.uploadFile(newPath)
+    .then(json => {
       fs.unlink(newPath);
       const rawImageUrl = json.data.link;
       const pageUrl = rawImageUrl.slice(0, -4);

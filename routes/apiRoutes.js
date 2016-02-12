@@ -11,20 +11,19 @@ const request = require('request');
 const News = require('../models/news');
 const Allcaps = require('../models/allcaps');
 
-router.get('/api', (req, res) => {
+// GET/POST /api
+router.get('/', (req, res) => {
   res.send({this: 'is an API'});
-});
-
-router.post('/api', (req, res) => {
+})
+.post('/', (req, res) => {
   const obj = _.mapValues(req.body, val => val.toUpperCase());
   const caps = new Allcaps(obj);
   caps.save((err, _caps) => {
     if(err) throw err;
     res.send(_caps);
   });
-});
-
-router.get('/api/news', (req, res) => {
+})
+.get('/news', (req, res) => {
   News.findOne({}).sort({_id: -1}).exec((err, doc) => {
     if(doc) {
       const FIFTEEN_MINS = 15 * 60 * 1000;
@@ -66,9 +65,8 @@ router.get('/api/news', (req, res) => {
       });
     });
   });
-});
-
-router.get('/api/passthrough', (req, res) => {
+})
+.get('/passthrough', (req, res) => {
   const url = 'https://randomapi.com/api/?key=2IS9-4BF5-3W5L-7Z67&id=irta6tm';
   request.get(url, (err, response, body) => {
     if(err) throw err;

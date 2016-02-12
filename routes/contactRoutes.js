@@ -6,11 +6,11 @@ const router = express.Router();
 
 const Contact = require('../models/contact');
 
-router.get('/contact', (req, res) => {
+// GET/POST /contact
+router.get('/', (req, res) => {
   res.render('contact');
-});
-
-router.post('/contact', (req, res) => {
+})
+.post('/', (req, res) => {
   const obj = new Contact({
     name: req.body.name,
     email: req.body.email,

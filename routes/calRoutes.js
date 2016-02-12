@@ -21,22 +21,21 @@ function successHeader (res, type) {
   res.writeHead(success, headObj);
 }
 
-router.get('/cal/:month/:year', (req, res) => {
+// GET /cal
+router.get('/:month/:year', (req, res) => {
   successHeader(res, 'text/html');
   const month = req.params.month - 1;
   const year = req.params.year;
   const monthArr = utility.buildMonth(month, year);
   printCal(res, monthArr);
-});
-
-router.get('/cal/:year', (req, res) => {
+})
+.get('/:year', (req, res) => {
   successHeader(res, 'text/html');
   const year = req.params.year;
   const yearArr = utility.buildYear(year);
   printCal(res, yearArr);
-});
-
-router.get('/cal', (req, res) => {
+})
+.get('/', (req, res) => {
   const date = new Date();
   const month = date.getMonth();
   const year = date.getFullYear();
