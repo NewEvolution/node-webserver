@@ -5,11 +5,17 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const favicon = require('serve-favicon'); // eslint-disable-line no-unused-vars
-const routes = require('./routes/routes');
 const bodyParser = require('body-parser');
 const MONGODB_URL = 'mongodb://localhost:27017/node-webserver';
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+const apiRoutes = require('./routes/apiRoutes');
+const calRoutes = require('./routes/calRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const miscRoutes = require('./routes/miscRoutes');
+const randomRoutes = require('./routes/randomRoutes');
+const sendphotoRoutes = require('./routes/sendphotoRoutes');
 
 app.set('view engine', 'jade');
 
@@ -28,7 +34,12 @@ app.use(require('node-sass-middleware')({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(routes);
+app.use(apiRoutes);
+app.use(calRoutes);
+app.use(contactRoutes);
+app.use(miscRoutes);
+app.use(randomRoutes);
+app.use(sendphotoRoutes);
 
 mongoose.connect(MONGODB_URL);
 
