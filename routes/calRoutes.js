@@ -7,15 +7,10 @@ const router = express.Router();
 const success = 200;
 
 
-function printMonth (res, month, year) {
-  const calArr = utility.buildMonth(month, year);
+function printCal (res, calArr) {
   res.write('<pre><h2>');
-  calArr.forEach((week, i) => {
-    if(i < 2) {
-      res.write(`<strong>${week}</strong>\n`);
-    } else {
-      res.write(`${week}\n`);
-    }
+  calArr.forEach(line => {
+    res.write(`${line}\n`);
   });
   res.end('</h2></pre>');
 }
@@ -28,23 +23,25 @@ function successHeader (res, type) {
 
 router.get('/cal/:month/:year', (req, res) => {
   successHeader(res, 'text/html');
-  const month = req.params.month;
+  const month = req.params.month - 1;
   const year = req.params.year;
-  printMonth(res, month, year);
+  const monthArr = utility.buildMonth(month, year);
+  printCal(res, monthArr);
 });
 
 router.get('/cal/:year', (req, res) => {
   successHeader(res, 'text/html');
   const year = req.params.year;
-  const yearArray = utility.buildYear(year);
-  res.end(yearArray.toString());
+  const yearArr = utility.buildYear(year);
+  printCal(res, yearArr);
 });
 
 router.get('/cal', (req, res) => {
   const date = new Date();
   const month = date.getMonth();
   const year = date.getFullYear();
-  printMonth(res, month, year);
+  const monthArr = utility.buildMonth(month, year);
+  printCal(res, monthArr);
 });
 
 module.exports = router;
