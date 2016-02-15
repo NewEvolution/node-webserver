@@ -9,13 +9,12 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/')
 const PORT = process.env.PORT || 3000;
 const app = express();
-let MONGODB_URL;
 
-if (process.env.NODE_ENV === 'production') {
-  MONGODB_URL = `mongodb://${process.env.MONGOLABDB_USER}:${process.env.MONGOLABDB_PASS}@${process.env.MONGOLABDB_URL}`;
-} else {
-  MONGODB_URL = 'mongodb://localhost:27017/node-webserver';
-}
+const MONGODB_AUTH = process.env.MONGODB_AUTH || '';
+const MONGODB_HOST = process.env.MONGODB_HOST || 'localhost';
+const MONGODB_PORT = process.env.MONGODB_PORT || 27017;
+
+const MONGODB_URL = `mongodb://${MONGODB_AUTH}${MONGODB_HOST}:${MONGODB_PORT}/node-webserver`;
 
 app.use(routes);
 
