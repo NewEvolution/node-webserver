@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Basic webserver implementation to explore Node.js server options/methods.",
   "main": "server.js",
+  "engines": {
+    "node": "5.5.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"

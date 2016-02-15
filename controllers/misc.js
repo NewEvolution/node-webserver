@@ -44,6 +44,7 @@ module.exports.secret = (req, res) => {
 module.exports.index = (req, res) => {
   News.findOne({}).sort({_id: -1}).exec((err, doc) => {
     if (err) throw err;
+    doc = doc || {top: ['']};
     res.render('index', {topStory: doc.top[0]});
   });
 };
