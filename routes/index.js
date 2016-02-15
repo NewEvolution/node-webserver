@@ -3,12 +3,12 @@
 const express = require('express');
 const router = express.Router();
 
-const apiRoutes = require('./apiRoutes');
-const calRoutes = require('./calRoutes');
-const contactRoutes = require('./contactRoutes');
-const miscRoutes = require('./miscRoutes');
-const randomRoutes = require('./randomRoutes');
-const sendphotoRoutes = require('./sendphotoRoutes');
+const apiRoutes = require('./api');
+const calRoutes = require('./cal');
+const contactRoutes = require('./contact');
+const miscRoutes = require('./misc');
+const randomRoutes = require('./random');
+const sendphotoRoutes = require('./sendphoto');
 
 router.use('/api', apiRoutes);
 router.use('/cal', calRoutes);

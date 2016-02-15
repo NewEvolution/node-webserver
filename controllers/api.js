@@ -1,9 +1,6 @@
 'use strict'
 /* eslint no-magic-numbers:0 */
 
-const express = require('express');
-const router = express.Router();
-
 const _ = require('lodash');
 const cheerio = require('cheerio');
 const request = require('request');
@@ -11,32 +8,33 @@ const request = require('request');
 const News = require('../models/news');
 const Allcaps = require('../models/allcaps');
 
-// GET/POST /api
-router.get('/', (req, res) => {
+module.exports.index = (req, res) => {
   res.send({this: 'is an API'});
-})
-.post('/', (req, res) => {
+};
+
+module.exports.new = (req, res) => {
   const obj = _.mapValues(req.body, val => val.toUpperCase());
   const caps = new Allcaps(obj);
   caps.save((err, _caps) => {
-    if(err) throw err;
+    if (err) throw err;
     res.send(_caps);
   });
-})
-.get('/news', (req, res) => {
+};
+
+module.exports.news = (req, res) => {
   News.findOne({}).sort({_id: -1}).exec((err, doc) => {
-    if(doc) {
+    if (doc) {
       const FIFTEEN_MINS = 15 * 60 * 1000;
       const diff = new Date() - doc._id.getTimestamp() - FIFTEEN_MINS;
       const newsIsFresh = diff < 0;
-      if(newsIsFresh) {
+      if (newsIsFresh) {
         res.send(doc)
         return;
       }
     }
     const url = 'http://cnn.com';
     request.get(url, (err, response, body) => {
-      if(err) throw err;
+      if (err) throw err;
       const $ = cheerio.load(body);
       const news = [];
       const $bannerText = $('.banner-text')
@@ -48,7 +46,7 @@ router.get('/', (req, res) => {
       _.range(1, 12).forEach(i => {
         const $headlineEl = $headline.eq(i)
         let theUrl = $headlineEl.find('a').attr('href');
-        if(theUrl.indexOf('http') !== 0) {
+        if (theUrl.indexOf('http') !== 0) {
           theUrl = `http://cnn.com${theUrl}`;
         }
         news.push({
@@ -65,13 +63,12 @@ router.get('/', (req, res) => {
       });
     });
   });
-})
-.get('/passthrough', (req, res) => {
+};
+
+module.exports.passthrough = (req, res) => {
   const url = 'https://randomapi.com/api/?key=2IS9-4BF5-3W5L-7Z67&id=irta6tm';
   request.get(url, (err, response, body) => {
-    if(err) throw err;
+    if (err) throw err;
     res.send(JSON.parse(body));
   });
-});
-
-module.exports = router;
+};

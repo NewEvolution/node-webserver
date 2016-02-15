@@ -1,25 +1,19 @@
 'use strict'
-/* eslint no-magic-numbers:0 */
-
-const express = require('express');
-const router = express.Router();
 
 const fs = require('fs');
 const path = require('path');
 const imgur = require('imgur');
-const upload = require('multer')({dest: 'tmp/uploads'});
 
-// GET/POST /sendphoto
-router.get('/', (req, res) => {
-  res.render('sendphoto');
-})
+module.exports.index = (req, res) => {
+  res.render('sendphoto')
+};
 
-.post('/', upload.single('image'), (req, res) => {
+module.exports.new = (req, res) => {
   const extension = path.extname(req.file.originalname);
   const tempPath = req.file.path;
   const newPath = tempPath + extension;
   fs.rename(tempPath, newPath, err => {
-    if(err) {
+    if (err) {
       res.send(`<p>Something has gone wrong: <strong>${err.message}</strong></p>`);
       throw err;
     }
@@ -27,7 +21,7 @@ router.get('/', (req, res) => {
     .then(json => {
       fs.unlink(newPath);
       const rawImageUrl = json.data.link;
-      const pageUrl = rawImageUrl.slice(0, -4);
+      const pageUrl = rawImageUrl.slice(0, -4); // eslint-disable-line no-magic-numbers
       res.end(`<a href='${pageUrl}'><img src='${pageUrl}l${extension}' alt='Your image'></a>
               <p><a href='${pageUrl}l${extension}'>Large Thumbnail</a></p>
               <p><a href='${pageUrl}m${extension}'>Medium Thumbnail</a></p>
@@ -38,6 +32,4 @@ router.get('/', (req, res) => {
     });
   });
   res.write('<h1>Thanks for your image!</h1>');
-});
-
-module.exports = router;
+};

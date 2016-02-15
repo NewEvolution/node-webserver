@@ -1,9 +1,6 @@
 'use strict'
 /* eslint no-magic-numbers:0 */
 
-const express = require('express');
-const router = express.Router();
-
 const cheerio = require('cheerio');
 const request = require('request');
 const success = 200;
@@ -16,7 +13,7 @@ function successHeader (res, type) {
   res.writeHead(success, headObj);
 }
 
-router.get('/hello', (req, res) => {
+module.exports.hello = (req, res) => {
   successHeader(res, 'text/html');
   const name = req.query.name;
   const msg = `<h1>Hello ${name}</h1>`;
@@ -28,27 +25,25 @@ router.get('/hello', (req, res) => {
   setTimeout(() => {
     res.end(`<h3>Goodbye ${name}...</h3>`);
   }, 1500 + 100 * name.length);
-});
+};
 
-router.get('/reddit', (req, res) => {
+module.exports.reddit = (req, res) => {
   const url = 'http://reddit.com';
   request.get(url, (err, response, body) => {
-    if(err) throw err;
+    if (err) throw err;
     const $ = cheerio.load(body);
     $('a.title').attr('href', 'https://www.youtube.com/watch?v=9NcPvmk4vfo');
     res.send($.html())
   });
-});
+};
 
-router.get('/secret', (req, res) => {
+module.exports.secret = (req, res) => {
   res.status(403).send('Access denied!');
-});
+};
 
-router.get('/', (req, res) => {
+module.exports.index = (req, res) => {
   News.findOne({}).sort({_id: -1}).exec((err, doc) => {
-    if(err) throw err;
+    if (err) throw err;
     res.render('index', {topStory: doc.top[0]});
   });
-});
-
-module.exports = router;
+};

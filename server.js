@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.connect(MONGODB_URL);
 
 mongoose.connection.on('open', (err) => {
-  if(err) throw err;
+  if (err) throw err;
 
   app.listen(PORT, () => {
     console.log(`Node.js server started. listening on port ${PORT}`);
