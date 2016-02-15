@@ -6,11 +6,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const favicon = require('serve-favicon'); // eslint-disable-line no-unused-vars
 const bodyParser = require('body-parser');
-const MONGODB_URL = 'mongodb://localhost:27017/node-webserver';
+const routes = require('./routes/')
 const PORT = process.env.PORT || 3000;
 const app = express();
+let MONGODB_URL;
 
-const routes = require('./routes/')
+if (process.env.NODE_ENV === 'production') {
+  MONGODB_URL = `mongodb://${process.env.MONGOLABDB_USER}:${process.env.MONGOLABDB_PASS}@${process.env.MONGOLABDB_URL}`;
+} else {
+  MONGODB_URL = 'mongodb://localhost:27017/node-webserver';
+}
 
 app.use(routes);
 
