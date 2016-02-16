@@ -4,11 +4,13 @@
   "description": "Basic webserver implementation to explore Node.js server options/methods.",
   "main": "server.js",
   "engines": {
-    "node": "5.5.0"
+    "node": "5.5.0",
+    "npm": "3.3.12"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
@@ -43,9 +45,7 @@
     "node-cal": "github:newevolution/node-cal",
     "node-sass-middleware": "^0.9.7",
     "request": "^2.69.0",
-    "serve-favicon": "^2.3.0"
-  },
-  "devDependencies": {
+    "serve-favicon": "^2.3.0",
     "bower": "^1.7.7"
   }
 }
