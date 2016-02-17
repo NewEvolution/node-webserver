@@ -32,9 +32,12 @@ module.exports.news = (req, res) => {
         return;
       }
     }
+
     const url = 'http://cnn.com';
+
     request.get(url, (err, response, body) => {
       if (err) throw err;
+
       const $ = cheerio.load(body);
       const news = [];
       const $bannerText = $('.banner-text')
@@ -42,7 +45,9 @@ module.exports.news = (req, res) => {
         title: $bannerText.text(),
         url: `http://cnn.com${$bannerText.closest('a').attr('href')}`
       });
+
       const $headline = $('.cd__headline');
+
       _.range(1, 12).forEach(i => {
         const $headlineEl = $headline.eq(i)
         let theUrl = $headlineEl.find('a').attr('href');
@@ -59,6 +64,7 @@ module.exports.news = (req, res) => {
 
       obj.save((err, _news) => {
         if (err) throw err;
+
         res.send(_news);
       });
     });
