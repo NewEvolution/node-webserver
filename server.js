@@ -21,8 +21,6 @@ const MONGODB_AUTH = MONGODB_USER
 
 const MONGODB_URL = `mongodb://${MONGODB_AUTH}${MONGODB_HOST}:${MONGODB_PORT}/node-webserver`;
 
-app.use(routes);
-
 app.set('view engine', 'jade');
 
 app.locals.title = 'A Calendar in Node.js';
@@ -37,6 +35,8 @@ app.use(require('node-sass-middleware')({
   indentedSyntax: true,
   sourceMap: true
 }));
+
+app.use(routes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
