@@ -51,13 +51,15 @@ module.exports.news = (req, res) => {
       _.range(1, 12).forEach(i => {
         const $headlineEl = $headline.eq(i)
         let theUrl = $headlineEl.find('a').attr('href');
-        if (theUrl && theUrl.indexOf('http') !== 0) {
-          theUrl = `http://cnn.com${theUrl}`;
+        if (theUrl) {
+          if (theUrl.indexOf('http') !== 0) {
+            theUrl = `http://cnn.com${theUrl}`;
+          }
+          news.push({
+            title: $headlineEl.text(),
+            url: theUrl
+          });
         }
-        news.push({
-          title: $headlineEl.text(),
-          url: theUrl
-        });
       });
 
       const obj = new News({ top: news });
