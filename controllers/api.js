@@ -51,7 +51,7 @@ module.exports.news = (req, res) => {
       _.range(1, 12).forEach(i => {
         const $headlineEl = $headline.eq(i)
         let theUrl = $headlineEl.find('a').attr('href');
-        if (theUrl.indexOf('http') !== 0) {
+        if (theUrl && theUrl.indexOf('http') !== 0) {
           theUrl = `http://cnn.com${theUrl}`;
         }
         news.push({
