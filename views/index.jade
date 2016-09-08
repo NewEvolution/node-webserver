@@ -1,9 +1,17 @@
 extends ./template.jade
 block content
   div.row
-    div.col-xs-12.col-md-10
+    div.col-sm-1.col-md-2.col-lg-3
+    div.col-xs-12.col-sm-10.col-md-8.col-lg-6
       h1 Welcome to #{title}
       p The date is now #{date.toLocaleDateString()}
       p Breaking news:&#32;
         a(href=topStory.url)= topStory.title
-
+    div.col-sm-1.col-md-2.col-lg-3
+  div.row.lower
+    div.col-sm-1.col-md-2.col-lg-3
+    div.col-xs-12.col-sm-10.col-md-8.col-lg-6
+      h3 API Section
+        a(href='api') Simple API returning JSON
+        a(href='api/news') Scraping CNN
+    div.col-sm-1.col-md-2.col-lg-3
