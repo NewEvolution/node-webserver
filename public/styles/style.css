@@ -1,7 +1,7 @@
 body {
   font-family: Helvetica, Arial, Sans-serif;
-  background-color: #667788;
-  color: #223344;
+  background-color: #678;
+  color: #234;
   width: 100%; }
 
 .footer {
@@ -10,16 +10,16 @@ body {
   text-align: center;
   position: absolute; }
 
-a:hover {
-  text-decoration: none;
-  color: #bbccdd; }
-
-a:active {
-  text-decoration: none;
-  color: #aabbcc; }
-
-a:visited {
-  text-decoration: line-through;
-  color: #223377; }
+a {
+  color: #237; }
+  a:hover {
+    text-decoration: none;
+    color: #bcd; }
+  a:active {
+    text-decoration: none;
+    color: #abc; }
+  a:visited {
+    text-decoration: line-through;
+    color: #237; }
 
 /*# sourceMappingURL=style.css.map */
