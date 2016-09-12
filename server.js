@@ -23,7 +23,7 @@ const MONGODB_URL = `mongodb://${MONGODB_AUTH}${MONGODB_HOST}:${MONGODB_PORT}/no
 
 app.set('view engine', 'jade');
 
-app.locals.title = 'A Calendar in Node.js';
+app.locals.title = 'node-webserver';
 app.locals.date = new Date();
 
 app.use(bodyParser.urlencoded({ extended: false }));
