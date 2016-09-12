@@ -21,15 +21,15 @@ function successHeader (res, type) {
 // GET /cal
 module.exports.month = (req, res) => {
   successHeader(res, 'text/html');
-  const month = req.params.month - 1;
-  const year = req.params.year;
+  const month = parseInt(req.params.month - 1);
+  const year = parseInt(req.params.year);
   const monthArr = utility.buildMonth(month, year);
   printCal(res, monthArr);
 };
 
 module.exports.year = (req, res) => {
   successHeader(res, 'text/html');
-  const year = req.params.year;
+  const year = parseInt(req.params.year);
   const yearArr = utility.buildYear(year);
   printCal(res, yearArr);
 };
