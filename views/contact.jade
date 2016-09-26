@@ -1,16 +1,19 @@
 extends ./template.jade
 block content
-  .container
-    h1 Contact
-    form(method="POST")
-      .form-group
-        label Name
-          input(type="text", name="name", placeholder="Name")
-      .form-group
-        label Email
-          input(type="emai", name="email", placeholder="you@mail.net")
-      .form-group
-        label Message
-          input(type="textarea", name="message", placeholder="message")
-      .form-group
-        input(type="submit", value="Contact us!")
+  div.row
+    div.col-sm-1.col-md-2.col-lg-3
+    div.col-xs-12.col-sm-10.col-md-8.col-lg-6
+      h1 Contact
+      form(method="POST")
+        .form-group
+          label(for="name") Name
+          input(type="text", id="name", name="name", placeholder="Bobert Bobertson").form-control
+        .form-group
+          label(for="email") Email
+          input(type="emai", id="email", name="email", placeholder="bob@bert.son").form-control
+        .form-group
+          label(for="message") Message
+          input(type="textarea", id="message", name="message", placeholder="message").form-control
+        .form-group
+          input(type="submit", value="Contact us!").form-control
+    div.col-sm-1.col-md-2.col-lg-3

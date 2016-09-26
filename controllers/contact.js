@@ -15,6 +15,6 @@ module.exports.new = (req, res) => {
 
   obj.save((err, newObj) => {
     if (err) throw err;
-    res.send(`<h1>Thanks for contacting us ${newObj.name}!</h1>`);
+    res.render('thanks', {name: newObj.name});
   });
 };
