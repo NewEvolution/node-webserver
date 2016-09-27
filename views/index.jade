@@ -34,5 +34,15 @@ block content
   div.row
     div.col-sm-1.col-md-2.col-lg-3
     div.col-xs-12.col-sm-10.col-md-8.col-lg-6
-      h3
+      h3 Miscellaneous Routes
+      p
+        a(href='reddit') Scraping reddit's frontpage and injecting Rickroll
+      p
+        a(href='sendphoto') Image uploads to imgur
+      p
+        form(action='hello').form-inline
+          .form-group
+            label(for='name').sr-only Enter your name
+            input(type='text', name='name', placeholder='Enter your name')#name.form-control
+          button(type='submit').btn.btn-default and click for a message
     div.col-sm-1.col-md-2.col-lg-3
