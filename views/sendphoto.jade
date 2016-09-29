@@ -7,8 +7,7 @@ block content
 
       form(enctype="multipart/form-data", method="POST")
         .form-group
-          label#uploaded-file.btn.btn-default.btn-block Choose an Image
-            input(type="file", name="image", accept="image/*", onchange="$('#uploaded-file').text($(this).val().substring(`C:/fakepath/`.length))").hidden
+          input(type="file", name="image", accept="image/*")
         .form-group
           input(type="submit", value="Share your image").btn.btn-default.btn-block
     div.col-sm-1.col-md-2.col-lg-3
