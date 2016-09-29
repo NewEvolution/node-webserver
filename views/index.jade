@@ -5,19 +5,8 @@ block content
     div.col-xs-12.col-sm-10.col-md-8.col-lg-6
       h1 Welcome to #{title}
       p The date is now #{date.toLocaleDateString()}
-      p Breaking news:&#32;
+      p CNN Breaking news:&#32;
         a(href=topStory.url)= topStory.title
-    div.col-sm-1.col-md-2.col-lg-3
-  div.row
-    div.col-sm-1.col-md-2.col-lg-3
-    div.col-xs-12.col-sm-10.col-md-8.col-lg-6
-      h3 API Routes
-      p
-        a(href='api') Simple API returning JSON
-      p
-        a(href='api/news') Scraping CNN's frontpage
-      p
-        a(href='api/passthrough') Straight passthrough of an external API
     div.col-sm-1.col-md-2.col-lg-3
   div.row
     div.col-sm-1.col-md-2.col-lg-3
@@ -36,13 +25,36 @@ block content
     div.col-xs-12.col-sm-10.col-md-8.col-lg-6
       h3 Miscellaneous Routes
       p
-        a(href='reddit') Scraping reddit's frontpage and injecting Rickroll
+        a(href='reddit') Scraping reddit's frontpage and injecting Rickroll at /reddit
       p
-        a(href='sendphoto') Image uploads to imgur
+        a(href='sendphoto') Image uploads to imgur at /sendphoto
       p
         form(action='hello').form-inline
           .form-group
             label(for='name').sr-only Enter your name
             input(type='text', name='name', placeholder='Enter your name')#name.form-control
           button(type='submit').btn.btn-default and click for a message
+          span  at /hello
+    div.col-sm-1.col-md-2.col-lg-3
+  div.row
+    div.col-sm-1.col-md-2.col-lg-3
+    div.col-xs-12.col-sm-10.col-md-8.col-lg-6
+      h3 API Routes
+      p
+        a(href='api') Simple API returning JSON at /api
+      p
+        a(href='api/news') Scraping CNN's frontpage at /api/news
+      p
+        #[a(href='api/passthrough') Straight passthrough] of #[a(href='http://beta.randomapi.com') an external API] at /api/passthrough
+    div.col-sm-1.col-md-2.col-lg-3
+  div.row
+    div.col-sm-1.col-md-2.col-lg-3
+    div.col-xs-12.col-sm-10.col-md-8.col-lg-6
+      h3 Random Routes
+      p
+        a(href='random') Get a random number between 0 and 100 at /random
+      p
+        a(href='random/20/315') Get a random number between min and max at /random/&lt;min&gt;/&lt;max&gt;
+      p
+        a(href='random/color') Get a random color at /random/color
     div.col-sm-1.col-md-2.col-lg-3
