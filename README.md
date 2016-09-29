@@ -11,6 +11,4 @@ A huge mess of assorted server functionality compiled over the course of learnin
 - Navigate to [http://localhost:3000](http://localhost:3000) to view the app
 
 ###Usage:
-- Register using email & password
-- Log in using same credentials
-- Click Notes or Categories to create either
+- Links on the main page describe the site functionality
