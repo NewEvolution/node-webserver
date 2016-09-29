@@ -74,7 +74,7 @@ module.exports.news = (req, res) => {
 };
 
 module.exports.passthrough = (req, res) => {
-  const url = 'https://randomapi.com/api/?key=2IS9-4BF5-3W5L-7Z67&id=irta6tm';
+  const url = 'http://beta.randomapi.com/api/98e4f746c52da19539e90cfce16e472a';
   request.get(url, (err, response, body) => {
     if (err) throw err;
     res.send(JSON.parse(body));
